@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
+    Shell.TabBarIsVisible="True"
+    Shell.TabBarBackgroundColor="#6C9A8B"
+    Shell.TabBarForegroundColor="#f6f6f6"
+    Shell.TabBarTitleColor="#FBF7F4"
+    Shell.TabBarUnselectedColor="#FBF7F4"
+    
     x:Class="DishBook.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:DishBook"
+    xmlns:pages="clr-namespace:DishBook.Pages"
     Title="DishBook">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:ViewPage}"
-        Route="View" />
-    
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:AddPage}"
-        Route="Add" />
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:EditPage}"
-        Route="Edit" />
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:SearchPage}"
-        Route="Search" />
-
+    <TabBar>
+        <Tab Title="Home" Icon="home.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate local:ViewPage}"
+                Route="View" />
+        </Tab>
+        <Tab Title="Add" Icon="plus.png">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate local:AddPage}"
+                Route="Add" />
+        </Tab>
+        <Tab Title="Favorites" Icon="star.png">
+            <ShellContent
+                Title="Favorites"
+                ContentTemplate="{DataTemplate pages:FavoritesPage}"
+                Route="Favorites" />
+        </Tab>
+    </TabBar>
 </Shell>

@@ -6,9 +6,4 @@ public partial class AddPage : ContentPage
 	{
 		InitializeComponent();
 	}
-
-    private async void ViewClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("//View");
-    }
 }
