@@ -2,11 +2,123 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DishBook.AddPage"
-             Title="Add Recipe">
-    <VerticalStackLayout>
-        <Label 
-            Text="Add Recipe"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Add/Edit Recipe">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Image Upload -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Image" FontAttributes="Bold" />
+                <Border StrokeShape="RoundRectangle 8"
+                        Stroke="#CCCCCC"
+                        HeightRequest="180"
+                        HorizontalOptions="Fill">
+                    <Grid>
+                        <Image x:Name="RecipeImage"
+                               Aspect="AspectFill"
+                               IsVisible="False" />
+                        <VerticalStackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="8">
+                            <Label x:Name="UploadPlaceholderLabel"
+                                   Text="Tap to upload image"
+                                   HorizontalOptions="Center"
+                                   TextColor="#999999" />
+                        </VerticalStackLayout>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnImageTapped" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Name -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Recipe Name" FontAttributes="Bold" />
+                <Entry x:Name="NameEntry"
+                       Placeholder="e.g. Spaghetti Carbonara" />
+            </VerticalStackLayout>
+
+            <!-- Description -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Description" FontAttributes="Bold" />
+                <Editor x:Name="DescriptionEditor"
+                        Placeholder="Brief description of the recipe..."
+                        HeightRequest="80"
+                        AutoSize="Disabled" />
+            </VerticalStackLayout>
+
+            <!-- Cook Time & Servings (side by side) -->
+            <Grid ColumnDefinitions="*,16,*" ColumnSpacing="0">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="Cook Time (mins)" FontAttributes="Bold" />
+                    <Entry x:Name="CookTimeEntry"
+                           Placeholder="e.g. 30"
+                           Keyboard="Numeric" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Spacing="4">
+                    <Label Text="Servings" FontAttributes="Bold" />
+                    <Entry x:Name="ServingsEntry"
+                           Placeholder="e.g. 4"
+                           Keyboard="Numeric" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Ingredients -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Ingredients" FontAttributes="Bold" />
+
+                <Grid ColumnDefinitions="*,12,100" ColumnSpacing="0">
+                    <Label Grid.Column="0" Text="Ingredient" TextColor="#666666" FontSize="12" />
+                    <Label Grid.Column="2" Text="Amount" TextColor="#666666" FontSize="12" />
+                </Grid>
+
+                <VerticalStackLayout x:Name="IngredientsContainer" Spacing="8">
+                </VerticalStackLayout>
+
+                <Label Text="+ Add Ingredient"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                       FontAttributes="Bold">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnAddIngredientClicked" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+
+            <!-- Directions -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Directions" FontAttributes="Bold" />
+                <Editor x:Name="DirectionsEditor"
+                        Placeholder="Step-by-step instructions..."
+                        HeightRequest="160"
+                        AutoSize="Disabled" />
+            </VerticalStackLayout>
+
+            <!-- Notes -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Notes" FontAttributes="Bold" />
+                <Editor x:Name="NotesEditor"
+                        Placeholder="Optional tips or substitutions..."
+                        HeightRequest="80"
+                        AutoSize="Disabled" />
+            </VerticalStackLayout>
+
+            <!-- Cancel / Save buttons -->
+            <Grid ColumnDefinitions="*,12,*" Margin="0,8,0,16">
+                <Button Grid.Column="0"
+                        Text="Cancel"
+                        Clicked="OnCancelClicked"
+                        BackgroundColor="#E0E0E0"
+                        TextColor="Black" />
+                <Button Grid.Column="2"
+                        Text="Save"
+                        Clicked="OnSaveClicked"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                        TextColor="White" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
