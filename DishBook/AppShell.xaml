@@ -16,7 +16,7 @@
         <Tab Title="Home" Icon="home.png">
             <ShellContent
                 ContentTemplate="{DataTemplate local:ViewPage}"
-                Route="View" />
+                Route="Home" />
         </Tab>
         <Tab Title="Add" Icon="plus.png">
             <ShellContent

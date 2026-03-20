@@ -55,7 +55,7 @@
                            HorizontalOptions="Center"
                            FontSize="16"
                            TextColor="{StaticResource Gray400}" />
-                    <Label Text="Tap Add to create your first recipe."
+                    <Label Text="Add your first recipe below."
                            HorizontalOptions="Center"
                            TextColor="{StaticResource Gray400}" />
                 </VerticalStackLayout>

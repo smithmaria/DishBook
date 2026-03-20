@@ -1,13 +1,19 @@
+using DishBook.Models;
+using DishBook.Services;
+
 namespace DishBook;
 
 public partial class AddPage : ContentPage
 {
-    public AddPage()
+    private readonly DatabaseService _db;
+    public AddPage(DatabaseService db)
     {
         InitializeComponent();
+        _db = db;
         AddIngredientRow();
     }
 
+    // TODO: add ingredients to sql database
     private void AddIngredientRow()
     {
         var grid = new Grid
@@ -44,12 +50,42 @@ public partial class AddPage : ContentPage
 
     private async void OnCancelClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync("//Home");
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
     {
-        // TODO: validate inputs, build Recipe model, persist to SQLite
-        await DisplayAlert("Save", "Save logic coming soon.", "OK");
+        if (string.IsNullOrWhiteSpace(NameEntry.Text))
+        {
+            await DisplayAlert("Validation", "Recipe name is required.", "OK");
+            return;
+        }
+
+        var recipe = new Recipe
+        {
+            Name = NameEntry.Text.Trim(),
+            Description = DescriptionEditor.Text?.Trim() ?? string.Empty,
+            CookTimeMinutes = int.TryParse(CookTimeEntry.Text, out var ct) ? ct : 0,
+            Servings = int.TryParse(ServingsEntry.Text, out var sv) ? sv : 0,
+            Directions = DirectionsEditor.Text?.Trim() ?? string.Empty,
+            Notes = NotesEditor.Text?.Trim() ?? string.Empty,
+        };
+
+        await _db.InitAsync();
+        await _db.SaveRecipeAsync(recipe);
+        ClearForm();
+        await Shell.Current.GoToAsync("//Home");
+    }
+
+    private void ClearForm()
+    {
+        NameEntry.Text = string.Empty;
+        DescriptionEditor.Text = string.Empty;
+        CookTimeEntry.Text = string.Empty;
+        ServingsEntry.Text = string.Empty;
+        DirectionsEditor.Text = string.Empty;
+        NotesEditor.Text = string.Empty;
+        IngredientsContainer.Clear();
+        AddIngredientRow();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DishBook.Services;
+using Microsoft.Extensions.Logging;
 
 namespace DishBook
 {
@@ -15,6 +16,10 @@ namespace DishBook
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<DatabaseService>();
+
+            builder.Services.AddSingleton<ViewPage>();
+            builder.Services.AddTransient<AddPage>();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

@@ -35,7 +35,7 @@
 
             <!-- Name -->
             <VerticalStackLayout Spacing="4">
-                <Label Text="Recipe Name" FontAttributes="Bold" />
+                <Label Text="Recipe Name*" FontAttributes="Bold" />
                 <Entry x:Name="NameEntry"
                        Placeholder="e.g. Spaghetti Carbonara" />
             </VerticalStackLayout>
