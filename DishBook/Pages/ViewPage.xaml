@@ -3,10 +3,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DishBook.ViewPage"
              Title="Recipes">
-    <VerticalStackLayout>
-        <Label 
-            Text="View Recipes"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid RowDefinitions="Auto,*" Padding="12" RowSpacing="12">
+
+        <!-- Search bar + Add button -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,8,Auto">
+            <SearchBar Grid.Column="0"
+                       x:Name="RecipeSearchBar"
+                       Placeholder="Search recipes..."
+                       TextChanged="OnSearchTextChanged" />
+        </Grid>
+
+        <!-- TODO: Bind actual recipe list and information to these -->
+        <!-- Recipe grid -->
+        <CollectionView Grid.Row="1"
+                        x:Name="RecipesCollection"
+                        ItemsLayout="VerticalGrid, 2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="6">
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="{StaticResource Gray200}"
+                                StrokeThickness="1">
+                            <VerticalStackLayout Spacing="0">
+
+                                <!-- Recipe image placeholder -->
+                                <BoxView Color="{StaticResource Gray200}"
+                                         HeightRequest="130"
+                                         HorizontalOptions="Fill" />
+
+                                <!-- Recipe title -->
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       Padding="8,6"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1" />
+
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRecipeTapped" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                    <Label Text="No recipes yet!"
+                           HorizontalOptions="Center"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray400}" />
+                    <Label Text="Tap Add to create your first recipe."
+                           HorizontalOptions="Center"
+                           TextColor="{StaticResource Gray400}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+        </CollectionView>
+
+    </Grid>
+
 </ContentPage>
