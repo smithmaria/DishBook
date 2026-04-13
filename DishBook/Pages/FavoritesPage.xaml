@@ -3,10 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DishBook.Pages.FavoritesPage"
              Title="Favorites">
-    <VerticalStackLayout>
-        <Label 
-            Text="Favorites"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid RowDefinitions="*" Padding="12">
+        <CollectionView x:Name="FavoritesCollection"
+                        ItemsLayout="VerticalGrid, 2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="6">
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="{StaticResource Gray200}"
+                                StrokeThickness="1">
+                            <VerticalStackLayout Spacing="0">
+                                <BoxView Color="{StaticResource Gray200}"
+                                         HeightRequest="130"
+                                         HorizontalOptions="Fill" />
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       Padding="8,6"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRecipeTapped"
+                                                  CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     Spacing="8">
+                    <Label Text="No favorites yet!"
+                           HorizontalOptions="Center"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray400}" />
+                    <Label Text="Tap ♡ on any recipe to save it here."
+                           HorizontalOptions="Center"
+                           TextColor="{StaticResource Gray400}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+
 </ContentPage>

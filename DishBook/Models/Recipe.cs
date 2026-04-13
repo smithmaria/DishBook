@@ -15,8 +15,10 @@ namespace DishBook.Models
         public string Description { get; set; } = string.Empty;
         public int CookTimeMinutes { get; set; }
         public int Servings { get; set; }
+        public string Ingredients { get; set; } = string.Empty; // "Name|Amount\nName|Amount"
         public string Directions { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
-        public string ImagePath { get; set; } = string.Empty;
+        public bool IsFavorite { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

@@ -32,8 +32,8 @@ public partial class ViewPage : ContentPage
 
     private async void OnRecipeTapped(object sender, TappedEventArgs e)
     {
-        // TODO: Open recipe page
         if (e.Parameter is not Recipe recipe) return;
-        await DisplayAlert("Recipe", $"Tapped: {recipe.Name}", "OK");
+        var detailPage = new DishBook.Pages.RecipeDetailPage(recipe, _db);
+        await Navigation.PushAsync(detailPage);
     }
 }

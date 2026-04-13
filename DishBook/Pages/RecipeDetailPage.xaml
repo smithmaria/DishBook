@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DishBook.Pages.RecipeDetailPage"
+             Title="Recipe">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="*,Auto,Auto" Padding="0,0,8,0">
+            <Label Grid.Column="0"
+                   x:Name="TitleLabel"
+                   VerticalOptions="Center"
+                   FontAttributes="Bold"
+                   FontSize="18" />
+            <!-- Favorite toggle -->
+            <Image Grid.Column="1"
+               x:Name="FavoriteIcon"
+               Source="heart_outline.png"
+               HeightRequest="26"
+               WidthRequest="26"
+               VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFavoriteTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+            <!-- Edit button -->
+            <Image Grid.Column="2"
+               x:Name="EditIcon"
+               Source="edit_pencil.png"
+               HeightRequest="26"
+               WidthRequest="26"
+               VerticalOptions="Center"
+               Margin="14,0,4,0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnEditTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>
+    </Shell.TitleView>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="20">
+
+            <!-- Image -->
+            <Border StrokeShape="RoundRectangle 10"
+                    Stroke="#CCCCCC"
+                    HeightRequest="200"
+                    HorizontalOptions="Fill">
+                <Grid>
+                    <BoxView x:Name="ImagePlaceholder"
+                             Color="{StaticResource Gray200}" />
+                    <Image x:Name="RecipeImage"
+                           Aspect="AspectFill"
+                           IsVisible="False" />
+                </Grid>
+            </Border>
+
+            <!-- Quick stats row -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Border Grid.Column="0"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light=#F0F4F2, Dark=#1E2E2A}"
+                        Stroke="Transparent"
+                        Padding="12">
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="⏱ Cook Time"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalOptions="Center" />
+                        <Label x:Name="CookTimeLabel"
+                               FontAttributes="Bold"
+                               FontSize="16"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1"
+                        StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light=#F0F4F2, Dark=#1E2E2A}"
+                        Stroke="Transparent"
+                        Padding="12">
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="🍽 Servings"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalOptions="Center" />
+                        <Label x:Name="ServingsLabel"
+                               FontAttributes="Bold"
+                               FontSize="16"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Description -->
+            <VerticalStackLayout x:Name="DescriptionSection" Spacing="6">
+                <Label Text="Description"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <Label x:Name="DescriptionLabel"
+                       TextColor="{StaticResource Gray600}"
+                       LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+
+            <!-- Ingredients -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Ingredients"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <VerticalStackLayout x:Name="IngredientsContainer" Spacing="6" />
+            </VerticalStackLayout>
+
+            <!-- Directions -->
+            <VerticalStackLayout x:Name="DirectionsSection" Spacing="6">
+                <Label Text="Directions"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <Label x:Name="DirectionsLabel"
+                       TextColor="{StaticResource Gray600}"
+                       LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+
+            <!-- Notes -->
+            <VerticalStackLayout x:Name="NotesSection" Spacing="6">
+                <Label Text="Notes"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <Border StrokeShape="RoundRectangle 8"
+                        BackgroundColor="{AppThemeBinding Light=#FFFBF0, Dark=#2A2510}"
+                        Stroke="#F0D080"
+                        Padding="12">
+                    <Label x:Name="NotesLabel"
+                           TextColor="{StaticResource Gray600}"
+                           LineBreakMode="WordWrap" />
+                </Border>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

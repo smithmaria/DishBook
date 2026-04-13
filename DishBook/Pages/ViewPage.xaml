@@ -43,7 +43,8 @@
                         </Border>
 
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnRecipeTapped" />
+                            <TapGestureRecognizer Tapped="OnRecipeTapped"
+                                                  CommandParameter="{Binding .}" />
                         </Grid.GestureRecognizers>
                     </Grid>
                 </DataTemplate>

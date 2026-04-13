@@ -1,4 +1,5 @@
-﻿using DishBook.Services;
+﻿using DishBook.Pages;
+using DishBook.Services;
 using Microsoft.Extensions.Logging;
 
 namespace DishBook
@@ -20,6 +21,8 @@ namespace DishBook
 
             builder.Services.AddSingleton<ViewPage>();
             builder.Services.AddTransient<AddPage>();
+            builder.Services.AddTransient<FavoritesPage>();
+            builder.Services.AddTransient<RecipeDetailPage>();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

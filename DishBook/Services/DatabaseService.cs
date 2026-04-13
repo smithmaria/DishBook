@@ -31,5 +31,8 @@ namespace DishBook.Services
 
         public async Task DeleteRecipeAsync(Recipe recipe) =>
             await _db.DeleteAsync(recipe);
+
+        public Task<List<Recipe>> GetFavoriteRecipesAsync() => 
+            _db.Table<Recipe>().Where(r => r.IsFavorite).ToListAsync();
     }
 }
