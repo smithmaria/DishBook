@@ -40,6 +40,14 @@ public partial class AddPage : ContentPage
         DirectionsEditor.Text = recipe.Directions;
         NotesEditor.Text = recipe.Notes;
 
+        if (!string.IsNullOrWhiteSpace(recipe.ImagePath) && File.Exists(recipe.ImagePath))
+        {
+            _selectedImagePath = recipe.ImagePath;
+            RecipeImage.Source = ImageSource.FromFile(recipe.ImagePath);
+            RecipeImage.IsVisible = true;
+            UploadPlaceholderLabel.IsVisible = false;
+        }
+
         // Rebuild ingredient rows from stored string
         IngredientsContainer.Clear();
         if (!string.IsNullOrWhiteSpace(recipe.Ingredients))
@@ -81,8 +89,36 @@ public partial class AddPage : ContentPage
     private void OnAddIngredientClicked(object sender, TappedEventArgs e)
         => AddIngredientRow();
 
+    private string? _selectedImagePath;
+
     private async void OnImageTapped(object sender, TappedEventArgs e)
-        => await DisplayAlert("Image", "Camera/gallery picker coming soon.", "OK");
+    {
+        try
+        {
+            var result = await MediaPicker.Default.PickPhotoAsync();
+            if (result is null) return;
+
+            var localPath = Path.Combine(FileSystem.AppDataDirectory,
+                                         $"{Guid.NewGuid()}{Path.GetExtension(result.FileName)}");
+            using var stream = await result.OpenReadAsync();
+            using var fileStream = File.OpenWrite(localPath);
+            await stream.CopyToAsync(fileStream);
+
+            _selectedImagePath = localPath;
+            RecipeImage.Source = ImageSource.FromFile(localPath);
+            RecipeImage.IsVisible = true;
+            UploadPlaceholderLabel.IsVisible = false;
+        }
+        catch (PermissionException)
+        {
+            await DisplayAlert("Permission Denied",
+                "Please allow photo access in your device settings.", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
 
     private async void OnCancelClicked(object sender, EventArgs e)
     {
@@ -121,6 +157,7 @@ public partial class AddPage : ContentPage
         recipe.Ingredients = string.Join('\n', ingredientLines);
         recipe.Directions = DirectionsEditor.Text?.Trim() ?? string.Empty;
         recipe.Notes = NotesEditor.Text?.Trim() ?? string.Empty;
+        recipe.ImagePath = _selectedImagePath ?? _editingRecipe?.ImagePath ?? string.Empty;
 
         await _db.InitAsync();
         await _db.SaveRecipeAsync(recipe);
@@ -141,6 +178,9 @@ public partial class AddPage : ContentPage
         NameEntry.Text = DescriptionEditor.Text =
             CookTimeEntry.Text = ServingsEntry.Text =
             DirectionsEditor.Text = NotesEditor.Text = string.Empty;
+        _selectedImagePath = null;
+        RecipeImage.IsVisible = false;
+        UploadPlaceholderLabel.IsVisible = true;
         IngredientsContainer.Clear();
         AddIngredientRow();
     }
