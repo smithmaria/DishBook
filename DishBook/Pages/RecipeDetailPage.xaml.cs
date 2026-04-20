@@ -19,7 +19,7 @@ public partial class RecipeDetailPage : ContentPage
     private void PopulateView()
     {
         TitleLabel.Text = _recipe.Name;
-        UpdateFavoriteIcon();
+        FavoriteIcon.Source = _recipe.IsFavorite ? "heart_filled.png" : "heart_outline.png";
 
         CookTimeLabel.Text = _recipe.CookTimeMinutes > 0
             ? $"{_recipe.CookTimeMinutes} min" : "—";
@@ -56,15 +56,10 @@ public partial class RecipeDetailPage : ContentPage
         NotesLabel.Text = _recipe.Notes;
     }
 
-    private void UpdateFavoriteIcon()
-    {
-        FavoriteIcon.Source = _recipe.IsFavorite ? "heart_filled.png" : "heart_outline.png";
-    }
-
     private async void OnFavoriteTapped(object sender, TappedEventArgs e)
     {
         _recipe.IsFavorite = !_recipe.IsFavorite;
-        UpdateFavoriteIcon();
+        FavoriteIcon.Source = _recipe.IsFavorite ? "heart_filled.png" : "heart_outline.png";
         await _db.SaveRecipeAsync(_recipe);
     }
 
@@ -79,5 +74,12 @@ public partial class RecipeDetailPage : ContentPage
     {
         _recipe = updated;
         PopulateView();
+    }
+
+    private async void OnBackClicked(object sender, EventArgs e)
+    {
+        if (Navigation.NavigationStack.Count > 1)
+            await Navigation.PopAsync();
+        
     }
 }
