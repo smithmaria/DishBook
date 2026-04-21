@@ -18,6 +18,18 @@ public partial class RecipeDetailPage : ContentPage
 
     private void PopulateView()
     {
+        if (!string.IsNullOrWhiteSpace(_recipe.ImagePath))
+        {
+            RecipeImage.Source = ImageSource.FromFile(_recipe.ImagePath);
+            RecipeImage.IsVisible = true;
+            ImagePlaceholder.IsVisible = false;
+        }
+        else
+        {
+            RecipeImage.IsVisible = false;
+            ImagePlaceholder.IsVisible = true;
+        }
+
         TitleLabel.Text = _recipe.Name;
         FavoriteIcon.Source = _recipe.IsFavorite ? "heart_filled.png" : "heart_outline.png";
 
